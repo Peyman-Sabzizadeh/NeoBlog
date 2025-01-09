@@ -23,3 +23,13 @@
         src: url("../font/Vazir-Bold.ttf");
     }
 }
+@layer components {
+    .btn {
+        @apply rounded-lg p-1 px-3 hover:bg-opacity-70 text-slate-100
+    }
+}
+@layer base {
+    :hover {
+        @apply transition
+    }
+}
