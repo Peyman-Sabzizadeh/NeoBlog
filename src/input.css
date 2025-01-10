@@ -4,23 +4,23 @@
 @layer base {
     @font-face{
         font-family: "Vazir";
-        src: url("../font/Vazir.ttf");
+        src: url("./font/Vazir.ttf");
     }
     @font-face{
         font-family: "Vazir Medium";
-        src: url("../font/Vazir-Medium.ttf");
+        src: url("./font/Vazir-Medium.ttf");
     }
     @font-face{
         font-family: "Vazir Light";
-        src: url("../font/Vazir-Light.ttf");
+        src: url("./font/Vazir-Light.ttf");
     }
     @font-face{
         font-family: "Vazir Thin";
-        src: url("../font/Vazir-Thin.ttf");
+        src: url("./font/Vazir-Thin.ttf");
     }
     @font-face{
         font-family: "Vazir Bold";
-        src: url("../font/Vazir-Bold.ttf");
+        src: url("./font/Vazir-Bold.ttf");
     }
 }
 @layer components {

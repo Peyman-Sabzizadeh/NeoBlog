@@ -10,14 +10,14 @@ module.exports = {
         "VazirMedium": "Vazir Medium",
         "VazirLight": "Vazir Light",
         "VazirThin": "Vazir Thin",
-        "VazirBold": "Vazir Bold",
+        "VazirBold": "Vazir Bold"
       },
       container: {
         center: true,
         padding: {
           DEFAULT: "1rem",
           lg: "0.626rem",
-          sm: "0.375rem",
+          sm: "0.375rem"
         }
       }
     },
