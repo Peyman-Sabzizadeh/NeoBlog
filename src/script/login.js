@@ -1,4 +1,6 @@
 const $ = document
+const nameInput = $.querySelector("#name-input")
+const phoneInput = $.querySelector("#phone-input")
 const usernameInput = $.querySelector("#username-input")
 const passwordInput = $.querySelector("#password-input")
 const loginBtn = $.querySelector("#login-btn")
@@ -8,10 +10,10 @@ function register (event) {
     const mutation = `
     mutation {
         register(
-            name: "user",
+            name: "${nameInput.value}",
+            phone: "${phoneInput.value}",
             username:"${usernameInput.value}",
             password: "${passwordInput.value}",
-            phone: "09933333333",
 		    role: USER
     ){
     accessToken,
@@ -20,7 +22,6 @@ function register (event) {
     }
   }
 }`;
-console.log(mutation)
 fetch("http://localhost:5005/blog", {
   method: "POST",
   headers: {
@@ -36,6 +37,7 @@ fetch("http://localhost:5005/blog", {
       console.error("GraphQL Errors:", data.errors);
     } else {
       console.log("User Added:", usernameInput.value);
+      window.location.href = "../../index.html"
     }
   })
   .catch((error) => {
