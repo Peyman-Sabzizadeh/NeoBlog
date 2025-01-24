@@ -1,4 +1,4 @@
-const $ = document
+let $ = document
 const nameInput = $.querySelector("#name-input")
 const phoneInput = $.querySelector("#phone-input")
 const usernameInput = $.querySelector("#username-input")
