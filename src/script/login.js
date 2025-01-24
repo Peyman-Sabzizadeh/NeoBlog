@@ -37,6 +37,8 @@ fetch("http://localhost:5005/blog", {
       console.error("GraphQL Errors:", data.errors);
     } else {
       console.log("User Added:", usernameInput.value);
+      tokenAddress = data.data.register.accessToken
+      localStorage.setItem("token", tokenAddress)
       window.location.href = "../../index.html"
     }
   })
