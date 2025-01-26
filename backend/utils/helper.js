@@ -87,34 +87,36 @@ export const resolveCaptcha = async (captcha, uuid) => {
 };
 
 export const generateOtpCode = (phone) => {
-  const code = Math.floor(Math.random() * 99999);
+  let code = Math.floor(Math.random() * 99999);
 
-  request.post(
-    {
-      url: "http://ippanel.com/api/select",
-      body: {
-        op: "pattern",
-        user: configs.FarazSmsPanel.user,
-        pass: configs.FarazSmsPanel.pass,
-        fromNum: configs.FarazSmsPanel.fromNum,
-        toNum: phone,
-        patternCode: configs.FarazSmsPanel.patternCode,
-        inputData: [{ "login-code": code }],
-      },
-      json: true,
-    },
-    function (error, response, body) {
-      if (!error && response.statusCode === 200) {
-        if (
-          typeof response.body !== "number" &&
-          Number(response.body[0]) !== 0
-        ) {
-          throw new Error(response.body[1]);
-        }
-        return true;
-      }
-    }
-  );
+  //! unComment if u have SMS panel
+  // request.post(
+  //   {
+  //     url: "http://ippanel.com/api/select",
+  //     body: {
+  //       op: "pattern",
+  //       user: configs.FarazSmsPanel.user,
+  //       pass: configs.FarazSmsPanel.pass,
+  //       fromNum: configs.FarazSmsPanel.fromNum,
+  //       toNum: phone,
+  //       patternCode: configs.FarazSmsPanel.patternCode,
+  //       inputData: [{ "login-code": code }],
+  //     },
+  //     json: true,
+  //   },
+  //   function (error, response, body) {
+  //     if (!error && response.statusCode === 200) {
+  //       if (
+  //         typeof response.body !== "number" &&
+  //         Number(response.body[0]) !== 0
+  //       ) {
+  //         throw new Error(response.body[1]);
+  //       }
+  //       return true;
+  //     }
+  //   }
+  // );
+  code = 12345
   return code;
 };
 
