@@ -14,8 +14,7 @@ function captchaGenerator () {
       captcha
       uuid
     }
-  }
-  `;
+  }`;
   fetch("http://localhost:5005/blog", {
     method: "POST",
     headers: {
@@ -28,14 +27,19 @@ function captchaGenerator () {
   .then((response) => response.json())
   .then((info) => {
     captchaImg.innerHTML = info.data.generateCaptcha.captcha
-    console.log(info.data.generateCaptcha.uuid)
+    uuidValue = info.data.generateCaptcha.uuid
+    console.log(uuidValue)
+    loginBtn.addEventListener("click",(event) => {
+      event.preventDefault()
+      loginMutation(uuidValue)
+    })
   })
   .catch((error) => console.error("Error:", error));
 }
 window.addEventListener("load",captchaGenerator)
 function register (event) {
     event.preventDefault()
-    const mutation = `
+    const registerMutation = `
     mutation {
       register(
         name: "${nameInput.value}",
@@ -57,7 +61,7 @@ function register (event) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      query: mutation,
+      query: registerMutation,
     }),
   })
   .then((response) => response.json())
@@ -76,3 +80,49 @@ function register (event) {
   });
 }
 signupBtn.addEventListener("click",register)
+async function loginMutation (uuid) {
+  let userToken = localStorage.getItem("token")
+  const loginMutation = `
+  mutation {
+    login(
+      phone: "${phoneInput.value}",
+      captcha: "${cpatchaInput.value}",
+      uuid: "${uuid}"
+  ){
+    message  
+    }
+  }`;
+  await fetch("http://localhost:5005/blog", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `${userToken}`
+    },
+    body: JSON.stringify({
+      query: loginMutation,
+    }),
+  })
+  .then((response) => response.json())
+  .then((data) => console.log(data))
+  const verifyOtp = `
+  mutation {
+    verifyOtp(
+      phone: "${phoneInput.value}",
+      code: "12345"
+  ){
+    refreshToken 
+    }
+  }`;
+  fetch("http://localhost:5005/blog", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `${userToken}`
+    },
+    body: JSON.stringify({
+      query: verifyOtp,
+    }),
+  })
+  .then((response) => response.json())
+  .then((data) => console.log(data))
+}
