@@ -26,9 +26,10 @@ function captchaGenerator () {
     }),
   })
   .then((response) => response.json())
-  .then((info) => 
+  .then((info) => {
     captchaImg.innerHTML = info.data.generateCaptcha.captcha
-  )
+    console.log(info.data.generateCaptcha.uuid)
+  })
   .catch((error) => console.error("Error:", error));
 }
 window.addEventListener("load",captchaGenerator)
@@ -44,6 +45,7 @@ function register (event) {
 		    role: USER
     ){
     accessToken,
+    refreshToken
 		user{
       name
     }
@@ -64,7 +66,7 @@ fetch("http://localhost:5005/blog", {
       console.error("GraphQL Errors:", data.errors);
     } else {
       console.log("User Added:", usernameInput.value);
-      tokenAddress = data.data.register.accessToken
+      tokenAddress = data.data.register.refreshToken
       localStorage.setItem("token", tokenAddress)
       window.location.href = "../../index.html"
     }
