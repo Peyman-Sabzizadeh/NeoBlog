@@ -107,7 +107,7 @@ export const login = async (_, args) => {
   }
 };
 
-export const verifyOtp = async (_, args) => {
+export const verifyOtp = async (_, args, context) => {
   const { phone, code } = args;
   const user = await authGuard(context.req);
 
