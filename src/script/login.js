@@ -37,29 +37,29 @@ function register (event) {
     event.preventDefault()
     const mutation = `
     mutation {
-        register(
-            name: "${nameInput.value}",
-            phone: "${phoneInput.value}",
-            username:"${usernameInput.value}",
-            password: "${passwordInput.value}",
+      register(
+        name: "${nameInput.value}",
+        phone: "${phoneInput.value}",
+        username:"${usernameInput.value}",
+        password: "${passwordInput.value}",
 		    role: USER
     ){
-    accessToken,
-    refreshToken
-		user{
-      name
+      accessToken,
+      refreshToken
+		  user{
+        name
+      }
     }
-  }
-}`;
-fetch("http://localhost:5005/blog", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    query: mutation,
-  }),
-})
+  }`;
+  fetch("http://localhost:5005/blog", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      query: mutation,
+    }),
+  })
   .then((response) => response.json())
   .then((data) => {
     if (data.errors) {
