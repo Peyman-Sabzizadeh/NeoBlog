@@ -107,9 +107,14 @@ export const login = async (_, args) => {
   }
 };
 
-export const verifyOtp = async (_, args, context) => {
+export const verifyOtp = async (_, args) => {
   const { phone, code } = args;
-  const user = await authGuard(context.req);
+ 
+  const user = await isUserRegistered(phone)
+
+  if (!user) {
+    throw new Error("ابتدا ثبت نام کنید !");
+  }
 
   const isValidCode = await cashOtpCodeFromRedis(phone, code);
 

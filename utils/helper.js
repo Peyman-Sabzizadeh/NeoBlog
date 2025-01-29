@@ -55,10 +55,10 @@ export const findUserById = async (userID) => {
 };
 
 export const isUserRegistered = async (phone) => {
-  const isUserExist = await User.findOne({ where: { phone } });
+  const user = await User.findOne({ where: { phone } });
 
-  if (isUserExist) {
-    return true;
+  if (user) {
+    return user;
   } else {
     return false;
   }
