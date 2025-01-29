@@ -70,8 +70,9 @@ function register (event) {
       console.error("GraphQL Errors:", data.errors);
     } else {
       console.log("User Added:", usernameInput.value);
-      tokenAddress = data.data.register.refreshToken
-      localStorage.setItem("token", tokenAddress)
+      tokenAddress = data.data.register.accessToken
+      refreshTokenAddress = data.data.register.refreshToken
+      localStorageHandler(tokenAddress,refreshTokenAddress)
       window.location.href = "../../index.html"
     }
   })
@@ -110,6 +111,7 @@ async function loginMutation (uuid) {
       phone: "${phoneInput.value}",
       code: "12345"
   ){
+    accessToken,
     refreshToken 
     }
   }`;
@@ -124,5 +126,14 @@ async function loginMutation (uuid) {
     }),
   })
   .then((response) => response.json())
-  .then((data) => console.log(data))
+  .then((data) => {
+    console.log(data)
+    tokenAddress = data.data.verifyOtp.accessToken
+    refreshTokenAddress = data.data.verifyOtp.refreshToken
+    localStorageHandler(tokenAddress,refreshTokenAddress)
+  })
+}
+function localStorageHandler (access,refresh) {
+  localStorage.setItem("token", access)
+  localStorage.setItem("refresh-token", refresh)
 }
