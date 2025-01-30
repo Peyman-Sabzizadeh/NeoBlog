@@ -28,7 +28,6 @@ function captchaGenerator () {
   .then((info) => {
     captchaImg.innerHTML = info.data.generateCaptcha.captcha
     uuidValue = info.data.generateCaptcha.uuid
-    console.log(uuidValue)
     loginBtn.addEventListener("click",(event) => {
       event.preventDefault()
       loginMutation(uuidValue)
@@ -69,7 +68,6 @@ function register (event) {
     if (data.errors) {
       console.error("GraphQL Errors:", data.errors);
     } else {
-      console.log("User Added:", usernameInput.value);
       tokenAddress = data.data.register.accessToken
       refreshTokenAddress = data.data.register.refreshToken
       localStorageHandler(tokenAddress,refreshTokenAddress)
@@ -127,10 +125,10 @@ async function loginMutation (uuid) {
   })
   .then((response) => response.json())
   .then((data) => {
-    console.log(data)
     tokenAddress = data.data.verifyOtp.accessToken
     refreshTokenAddress = data.data.verifyOtp.refreshToken
     localStorageHandler(tokenAddress,refreshTokenAddress)
+    window.location.href = "../../index.html"
   })
 }
 function localStorageHandler (access,refresh) {
