@@ -1,10 +1,17 @@
 let $ = document
+const menuButton = $.querySelector("#menu-btn")
+const menuDropdown = $.querySelector("#menu-drop-down")
+const arrowDownIcon = $.querySelector("#arrow-down-icon")
 const lightIcon = $.querySelector("#light-icon")
 const darkIcon = $.querySelector("#dark-icon")
 const loginBtn = $.querySelector(".login-btn")
 const signupBtn = $.querySelector(".signup-btn")
 let classTheme = document.documentElement
 let getTheme = localStorage.getItem("theme")
+menuButton.addEventListener("click", function () {
+    menuDropdown.classList.toggle("hidden")
+    arrowDownIcon.classList.toggle("rotate-180")
+});
 function setTheme () {
     if (getTheme === "light") {
         classTheme.classList.remove("dark")
