@@ -1,5 +1,7 @@
 let $ = document
+const profileMenu = $.querySelector("#profile-menu")
 const menuButton = $.querySelector("#menu-btn")
+const nameUser = $.querySelector("#name-user")
 const menuDropdown = $.querySelector("#menu-drop-down")
 const arrowDownIcon = $.querySelector("#arrow-down-icon")
 const lightIcon = $.querySelector("#light-icon")
@@ -57,6 +59,43 @@ function autoLogin () {
         }),
     })
     .then((response) => response.json())
-    .then((data) => console.log(data))
+    .then((info) => {
+        if (info.data === null) {
+            refreshTokenFunc()
+        }else {
+            nameUser.innerHTML = info.data.getMe.name
+        }
+    })
+}
+function refreshTokenFunc () {
+    let getRefreshToken = localStorage.getItem("refresh-token")
+    const refreshTokenQuery = `
+    query RefreshToken {
+        refreshToken {
+            token  
+        }
+    }`;
+    fetch("http://localhost:5005/blog", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `${getRefreshToken}`
+        },
+        body: JSON.stringify({
+            query: refreshTokenQuery,
+        }),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        if (data.data === null) {
+            profileMenu.classList.add("hidden")
+            loginBtn.classList.remove("hidden")
+            signupBtn.classList.remove("hidden")
+        }else {
+            let newToken = data.data.refreshToken.token
+            localStorage.setItem("token", newToken)
+            autoLogin()
+        }
+    })
 }
 window.addEventListener("load",autoLogin)
