@@ -1,4 +1,5 @@
 let $ = document
+const url = "http://localhost:5005/blog"
 const nameInput = $.querySelector("#name-input")
 const phoneInput = $.querySelector("#phone-input")
 const usernameInput = $.querySelector("#username-input")
@@ -15,7 +16,7 @@ function captchaGenerator () {
       uuid
     }
   }`;
-  fetch("http://localhost:5005/blog", {
+  fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -54,7 +55,7 @@ function register (event) {
       }
     }
   }`;
-  fetch("http://localhost:5005/blog", {
+  fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -91,7 +92,7 @@ async function loginMutation (uuid) {
     message  
     }
   }`;
-  await fetch("http://localhost:5005/blog", {
+  await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -113,7 +114,7 @@ async function loginMutation (uuid) {
     refreshToken 
     }
   }`;
-  fetch("http://localhost:5005/blog", {
+  fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

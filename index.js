@@ -1,9 +1,11 @@
 let $ = document
+const url = "http://localhost:5005/blog"
 const profileMenu = $.querySelector("#profile-menu")
 const menuButton = $.querySelector("#menu-btn")
 const nameUser = $.querySelector("#name-user")
 const menuDropdown = $.querySelector("#menu-drop-down")
 const arrowDownIcon = $.querySelector("#arrow-down-icon")
+const logOutBtn = $.querySelector("#log-out-btn")
 const lightIcon = $.querySelector("#light-icon")
 const darkIcon = $.querySelector("#dark-icon")
 const loginBtn = $.querySelector(".login-btn")
@@ -14,6 +16,12 @@ menuButton.addEventListener("click", function () {
     menuDropdown.classList.toggle("hidden")
     arrowDownIcon.classList.toggle("rotate-180")
 });
+document.addEventListener("click", event => {
+    if (!profileMenu.contains(event.target)) {
+        menuDropdown.classList.add("hidden")
+        arrowDownIcon.classList.remove("rotate-180")
+    }
+})
 function setTheme () {
     if (getTheme === "light") {
         classTheme.classList.remove("dark")
@@ -48,7 +56,7 @@ function autoLogin () {
         name  
         }
     }`;
-    fetch("http://localhost:5005/blog", {
+    fetch(url, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -62,6 +70,7 @@ function autoLogin () {
     .then((info) => {
         if (info.data === null) {
             refreshTokenFunc()
+            autoLogin()
         }else {
             nameUser.innerHTML = info.data.getMe.name
         }
@@ -75,7 +84,7 @@ function refreshTokenFunc () {
             token  
         }
     }`;
-    fetch("http://localhost:5005/blog", {
+    fetch(url, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -94,8 +103,40 @@ function refreshTokenFunc () {
         }else {
             let newToken = data.data.refreshToken.token
             localStorage.setItem("token", newToken)
-            autoLogin()
         }
     })
 }
+function logOut () {
+    let getAccessToken = localStorage.getItem("token")
+    const logOutQuery = `
+    mutation LogOut {
+        logOut {
+            error,
+            message,
+            success  
+        }
+    }`
+    fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `${getAccessToken}`
+        },
+        body: JSON.stringify({
+            query: logOutQuery,
+        }),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        if (data.data.logOut.error === true) {
+            refreshTokenFunc()
+            logOutBtn.click()
+        }else {
+            localStorage.removeItem("token")
+            localStorage.removeItem("refresh-token")
+            location.reload()
+        }
+    })
+}
+logOutBtn.addEventListener("click", logOut)
 window.addEventListener("load",autoLogin)
