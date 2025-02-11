@@ -20,7 +20,7 @@ export const createArticle = async (_, args, context) => {
   tags = Array.isArray(tags) ? tags : [tags];
 
   tags = tags.map((tag) =>
-    Tag.findOrCreate({ where: { title: tag.trim() }, raw: true })
+    Tag.findOrCreate({ where: { title: tag }, raw: true })
   );
   tags = await Promise.all(tags);
 
