@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+    @font-face{
+        font-family: "Vazir";
+        src: url("./font/Vazir.ttf");
+    }
+    @font-face{
+        font-family: "Vazir Medium";
+        src: url("./font/Vazir-Medium.ttf");
+    }
+    @font-face{
+        font-family: "Vazir Light";
+        src: url("./font/Vazir-Light.ttf");
+    }
+    @font-face{
+        font-family: "Vazir Thin";
+        src: url("./font/Vazir-Thin.ttf");
+    }
+    @font-face{
+        font-family: "Vazir Bold";
+        src: url("./font/Vazir-Bold.ttf");
+    }
+}
+@layer components {
+    .btn {
+        @apply rounded-lg p-1 px-3 hover:bg-opacity-70 text-slate-100
+    }
+}
+@layer base {
+    :hover {
+        @apply transition
+    }
+}
