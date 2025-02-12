@@ -109,9 +109,8 @@ export const login = async (_, args) => {
 
 export const verifyOtp = async (_, args) => {
   const { phone, code } = args;
- 
-  const user = await isUserRegistered(phone)
-
+  const user = await isUserRegistered(phone);
+  
   if (!user) {
     throw new Error("ابتدا ثبت نام کنید !");
   }

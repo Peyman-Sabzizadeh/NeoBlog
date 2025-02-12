@@ -48,9 +48,10 @@ export const schema = `
       removeUser (userID: Int!): User
       logOut: Response!
       setAvatar (file: Upload!): File!
+      setArticleCover (articleID: Int!, cover: Upload!): File!
       removeAvatar: Response!
       changeRole (role: UserRole!, userID: Int!): Response!
-      createArticle (input: createArticleInput!, cover: Upload!): Article!
+      createArticle (input: createArticleInput!): Article!
       delArticleCover (id: Int!) : Response!
       removeArticle (id: Int!) : Response!
       updateArticle (articleID: Int!, title: String!, content: String!) : Response!

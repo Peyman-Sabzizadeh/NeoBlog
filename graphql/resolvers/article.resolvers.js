@@ -12,7 +12,6 @@ import {
 export const createArticle = async (_, args, context) => {
   const user = await authGuard(context.req);
 
-  const { filename, createReadStream } = await args.cover.file;
   let { title, content, tags } = args.input;
 
   let slug = generateSlugForArticle(title);
@@ -24,9 +23,6 @@ export const createArticle = async (_, args, context) => {
   );
   tags = await Promise.all(tags);
 
-  await uploaderHandler("cover", filename, createReadStream);
-  const filePath = `/images/cover/${await args.cover?.file?.filename}`;
-
   let article = await isArticleExist(slug);
 
   if (article) {
@@ -36,7 +32,6 @@ export const createArticle = async (_, args, context) => {
     title,
     slug,
     author_id: user.id,
-    cover: filePath,
     content,
   });
 
@@ -49,6 +44,50 @@ export const createArticle = async (_, args, context) => {
   };
 };
 
+export const setArticleCover = async (_, args, ctx) => {
+  const { id: creatorID } = await authGuard(ctx.req);
+  const { articleID } = args;
+
+  const { filename, createReadStream, mimetype, encoding } = await args.cover
+    .file;
+
+  if (!filename) throw new Error("فایلی ارسال نشده");
+
+  const isArticleExist = await Article.findOne({
+    where: {
+      id: articleID,
+      author_id: creatorID,
+    },
+  });
+
+  if (!isArticleExist)
+    throw new Error(
+      "مقاله ایی با ایدی ارسالی یافت نشد! یا مقاله برای کاربر ایجاد کننده نمیباشد!"
+    );
+
+  await uploaderHandler("cover", filename, createReadStream);
+  const filePath = `/images/cover/${await args.cover?.file?.filename}`;
+
+  await Article.update(
+    {
+      cover: filePath,
+    },
+    {
+      where: {
+        id: articleID,
+        author_id: creatorID,
+        cover: null,
+      },
+    }
+  );
+
+  return {
+    filename,
+    mimetype,
+    encoding,
+    link: filePath,
+  };
+};
 export const updateArticle = async (_, args, context) => {
   const { id: userID, role } = await authGuard(context.req);
   const { articleID, title, content } = args;
