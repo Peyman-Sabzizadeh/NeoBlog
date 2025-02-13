@@ -2,6 +2,15 @@ const titleInput = $.querySelector("#title")
 const contentInput = $.querySelector("#content")
 const tagsInput = $.querySelector("#tags")
 const submitBtn = $.querySelector("#submit-btn")
+function adjustHeight(element) {
+    element.style.height = "auto"; 
+    element.style.height = element.scrollHeight + "px"; 
+    if (element.scrollHeight > 300) {
+      element.style.overflowY = "auto";
+    } else {
+      element.style.overflowY = "hidden";
+    }
+}
 function createArticle () {
     let tagsArray = tagsInput.value.split("،")
     let getToken = localStorage.getItem("token")

@@ -64,11 +64,11 @@
                 </div>
             </div>
         </header>
-        <main class="border">
-            <input id="title" type="text" placeholder="عنوان مقاله">
-            <textarea id="content" class="w-[80%]" placeholder="متن مقاله..."></textarea>
-            <input id="tags" type="text" placeholder="تگ ها(تکنولوژی،فناوری،تراشه،...)">
-            <input id="submit-btn" type="submit" value="ثبت">
+        <main class="mt-6 flex flex-col gap-y-4 items-start justify-center child:p-2 child:border child:rounded-lg child:outline-none">
+            <input class="w-80 h-9" id="title" type="text" placeholder="عنوان مقاله">
+            <textarea id="content" rows="1" class="w-full min-h-[100px] max-h-[350px] overflow-hidden resize-none" placeholder="متن مقاله..." oninput="adjustHeight(this)"></textarea>
+            <input class="w-80" id="tags" type="text" placeholder="تگ ها(تکنولوژی،فناوری،تراشه،...)">
+            <input class="bg-green-500 border-none hover:bg-green-600 text-white w-24 cursor-pointer" id="submit-btn" type="submit" value="ثبت">
         </main>
     </div>
     <script src="../../index.js"></script>
