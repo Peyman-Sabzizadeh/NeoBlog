@@ -1,14 +1,19 @@
+const titleInput = $.querySelector("#title")
+const contentInput = $.querySelector("#content")
+const tagsInput = $.querySelector("#tags")
+const submitBtn = $.querySelector("#submit-btn")
 function createArticle () {
+    let tagsArray = tagsInput.value.split("،")
     let getToken = localStorage.getItem("token")
     const articleMutation = `
     mutation {
         createArticle(
             input: {
-                title: "hello world",
-                content: "this is a test content for an article"
-            }, 
-            cover: "Logo.svg"){
-            title  
+                title: "${titleInput.value}",
+                content: "${contentInput.value}",
+                tags: ${JSON.stringify(tagsArray)}
+            }){
+            title 
             }
     }`
     fetch(url, {
@@ -24,4 +29,4 @@ function createArticle () {
     .then((res) => res.json())
     .then((data) => console.log(data))
 }
-// createArticle()
+submitBtn.addEventListener("click", createArticle)
