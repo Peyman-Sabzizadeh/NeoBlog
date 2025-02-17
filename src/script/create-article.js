@@ -39,3 +39,39 @@ function createArticle () {
     .then((data) => console.log(data))
 }
 submitBtn.addEventListener("click", createArticle)
+function updateArticle () {
+    let getArticleID = localStorage.getItem("article-id")
+    if (getArticleID) {
+        submitBtn.addEventListener("click", function () {
+            console.log("Article ID is exit..")
+            let getUserToken = localStorage.getItem("token")
+            const updateArticleMutation = `
+            mutation {
+                updateArticle(
+                    articleID: ${getArticleID},
+                    title: "${titleInput.value}",
+                    content: "${contentInput.value}"
+                ){
+                    message  
+                }
+            }`
+            console.log(url)
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `${getUserToken}`
+                },
+                body: JSON.stringify({
+                    query: updateArticleMutation,
+                }),
+            })
+            .then((res) => res.json())
+            .then((info) => {
+                console.log(info)
+                localStorage.removeItem("article-id")
+            })
+        })
+    }
+}
+updateArticle()
