@@ -14,8 +14,10 @@ export const addBookMark = async (_, { articleId }, context) => {
   }
 
   const checkArticleSaved = await BookMark.findOne({
-    article_id: articleId,
-    user_id: user.id,
+    where: {
+      article_id: articleId,
+      user_id: user.id,
+    },
   });
 
   if (checkArticleSaved) {
