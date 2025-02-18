@@ -18,6 +18,7 @@ export const schema = `
       ${verificationsTypes.Otp}
       ${verificationsTypes.AccessToken}
       ${responsesTypes.Response}
+      ${responsesTypes.Count}
       ${articleTypes.Article}
       ${articleTypes.Tag}
       ${articleTypes.createArticleInput}
@@ -36,9 +37,12 @@ export const schema = `
       findAllArticle (page: Int!, limit: Int!): [Article!]!
       findArticleBuySlug (slug: String!): [Article]
       findArticleBuyTag (tag: String!): [Article]
+      findArticleByID (articleID: Int!): Article         
       getAllTag: [Tag!]!
       getAllBookMarks (page: Int, limit: Int): [BookMark!]!
       getAllLikes (articleId: Int!): [Like]
+      getArticleBookMarkCount (articleId: Int!): Count!
+      getArticleLikesCount (articleId: Int!): Count!
       }
 
       type Mutation {

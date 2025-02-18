@@ -110,3 +110,29 @@ export const getAllBookMarks = async (_, { page = 1, limit = 10 }, context) => {
 
   return bookMarks;
 };
+
+export const getArticleBookMarkCount = async (_, { articleId }) => {
+  const existingArticle = await Article.findOne({ where: { id: articleId } });
+
+  if (!existingArticle) {
+    return {
+      success: false,
+      error: true,
+      message: "مقاله یافت نشد !!",
+    };
+  }
+
+  let bookmarks = await BookMark.findAndCountAll({
+    where: {
+      article_id: articleId,
+    },
+  });
+
+
+  return {
+    success: true,
+    error: false,
+    message: "تعداد سیو های این مقاله: 👇",
+    count: bookmarks.count,
+  };
+};
