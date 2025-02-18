@@ -42,8 +42,36 @@ submitBtn.addEventListener("click", createArticle)
 function updateArticle () {
     let getArticleID = localStorage.getItem("article-id")
     if (getArticleID) {
+        // Get article info
+        tagsInput.classList.add("hidden")
+        let getAccessToken = localStorage.getItem("token")
+        const getArticleInfoQuery = `
+        query {
+            findArticleByID(
+                articleID: ${getArticleID}
+            ){
+                title,
+                content
+            }
+        }`
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `${getAccessToken}`
+            },
+            body: JSON.stringify({
+                query: getArticleInfoQuery,
+            }),
+        })
+        .then((res) => res.json())
+        .then((info) => {
+            let articleInfo = info.data.findArticleByID
+            titleInput.value = articleInfo.title
+            contentInput.value = articleInfo.content
+        })
+        // Update article
         submitBtn.addEventListener("click", function () {
-            console.log("Article ID is exit..")
             let getUserToken = localStorage.getItem("token")
             const updateArticleMutation = `
             mutation {
@@ -55,7 +83,6 @@ function updateArticle () {
                     message  
                 }
             }`
-            console.log(url)
             fetch(url, {
                 method: "POST",
                 headers: {
@@ -68,8 +95,8 @@ function updateArticle () {
             })
             .then((res) => res.json())
             .then((info) => {
-                console.log(info)
                 localStorage.removeItem("article-id")
+                window.location.href = "./articles.html"
             })
         })
     }

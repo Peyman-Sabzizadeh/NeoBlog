@@ -1,4 +1,3 @@
-// let $ = document
 const articlesContainer = $.querySelector("#articles-container")
 function getArticles () {
     let getToken = localStorage.getItem("token")
