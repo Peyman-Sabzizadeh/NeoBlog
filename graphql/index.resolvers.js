@@ -16,9 +16,12 @@ export const RootResolvers = {
     findAllArticle: articleResolvers.findAllArticle,
     findArticleBuySlug: articleResolvers.findArticleBuySlug,
     findArticleBuyTag: articleResolvers.findArticleBuyTag,
+    findArticleByID: articleResolvers.findArticleByID,
     getAllTag: tagResolvers.getAllTag,
     getAllLikes: likeResolvers.getAllLikes,
     getAllBookMarks: bookMarkResolvers.getAllBookMarks,
+    getArticleBookMarkCount: bookMarkResolvers.getArticleBookMarkCount,
+    getArticleLikesCount: likeResolvers.getArticleLikesCount,
   },
 
   Mutation: {

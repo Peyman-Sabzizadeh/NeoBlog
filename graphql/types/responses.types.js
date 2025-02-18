@@ -5,3 +5,11 @@ export const Response = `
       message: String
     } 
 `;
+export const Count = `
+    type Count {
+    success: Boolean
+    error: Boolean
+    message: String
+    count: Int
+    } 
+`;

@@ -94,3 +94,29 @@ export const getAllLikes = async (_, { articleId: id }) => {
   }
   return likes;
 };
+
+export const getArticleLikesCount = async (_, { articleId }) => {
+  const existingArticle = await Article.findOne({ where: { id: articleId } });
+
+  if (!existingArticle) {
+    return {
+      success: false,
+      error: true,
+      message: "مقاله یافت نشد !!",
+    };
+  }
+
+  let likes = await Like.findAndCountAll({
+    where: {
+      article_id: articleId,
+    },
+  });
+
+
+  return {
+    success: true,
+    error: false,
+    message: "تعداد لایک های این مقاله: 👇",
+    count: likes.count,
+  };
+};

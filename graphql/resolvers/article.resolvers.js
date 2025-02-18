@@ -275,3 +275,40 @@ export const findArticleBuyTag = async (_, { tag }) => {
   });
   return articles;
 };
+
+export const findArticleByID = async (_, { articleID }, ctx) => {
+  const { role } = await authGuard(ctx.req);
+
+  if (role !== "ADMIN")
+    throw new Error("شما دسترسی استفاده ندارید تنها ادمبن ها دسترسی دارند!");
+
+  const article = await Article.findByPk(articleID, {
+    include: [
+      {
+        model: User,
+        attributes: {
+          exclude: ["password"],
+        },
+        as: "author",
+      },
+
+      {
+        model: Tag,
+        attributes: ["title", "id"],
+        through: {
+          attributes: [],
+        },
+      },
+    ],
+  });
+
+  if (!article) {
+    throw new Error("مقاله پیدا نشد.");
+  }
+
+  article.dataValues.created_at = calculateDurationCreateAtOfArticles(
+    article.dataValues.created_at
+  );
+
+  return article;
+};
