@@ -29,12 +29,17 @@ getArticles()
 function addToDom (data) {
     data.forEach(function (article) {
         let getNewToken = localStorage.getItem("token")
-        const likesQuery = `
+        const likeAndSaveQuery = `
         query {
             getAllLikes(articleId: ${article.id}) {
                 user {
                     name
             }  
+            }
+            getArticleBookMarkCount(
+                 articleId: ${article.id}
+            ){
+                count
             }
         }`
         fetch(url, {
@@ -44,12 +49,13 @@ function addToDom (data) {
                 "Authorization": `${getNewToken}`,
             },
             body: JSON.stringify({
-                query: likesQuery
+                query: likeAndSaveQuery
             })
         })
         .then((likes) => likes.json())
         .then((count) => {
             const likesCount = count?.data?.getAllLikes?.length || 0;
+            const savesCount = count?.data?.getArticleBookMarkCount?.count || 0
             articlesContainer.insertAdjacentHTML("beforeend", `
                 <div class="flex items-center justify-between gap-x-[8rem] bg-gray-400 rounded-lg p-2">
                     <div>
@@ -63,7 +69,7 @@ function addToDom (data) {
                             </svg>
                         </span>
                         <span class="flex items-center justify-center">
-                            <h3 class="text-sm">13</h3>
+                            <h3 class="text-sm">${savesCount}</h3>
                             <svg fill="#0a0e17" viewBox="0 0 24 24" stroke-width="1.5" stroke="" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
                             </svg>
