@@ -102,3 +102,8 @@ function updateArticle () {
     }
 }
 updateArticle()
+document.addEventListener("visibilitychange", function () {
+    if (document.hidden) {
+        localStorage.removeItem("article-id")
+    }
+})
