@@ -36,7 +36,17 @@ function createArticle () {
         }),
     })
     .then((res) => res.json())
-    .then((data) => console.log(data))
+    .then((data) => {
+        swal({
+            title: "مقاله آپلود شد.",
+            text: "عملیات موفقیت آمیز",
+            icon: "success",
+            button: "باشه",
+        });
+        setTimeout(() => {
+            window.location.href = "./articles.html"
+        }, 1500);
+    })
 }
 submitBtn.addEventListener("click", createArticle)
 function updateArticle () {
@@ -95,8 +105,16 @@ function updateArticle () {
             })
             .then((res) => res.json())
             .then((info) => {
+                swal({
+                    title: "مقاله ویرایش شد.",
+                    text: "عملیات موفقیت آمیز",
+                    icon: "success",
+                    button: "باشه",
+                });
                 localStorage.removeItem("article-id")
-                window.location.href = "./articles.html"
+                setTimeout(() => {
+                    window.location.href = "./articles.html"
+                }, 1500);
             })
         })
     }

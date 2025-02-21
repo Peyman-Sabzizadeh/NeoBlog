@@ -129,7 +129,15 @@ async function loginMutation (uuid) {
     tokenAddress = data.data.verifyOtp.accessToken
     refreshTokenAddress = data.data.verifyOtp.refreshToken
     localStorageHandler(tokenAddress,refreshTokenAddress)
-    window.location.href = "../../index.html"
+    swal({
+      title: "با موفقیت وارد شدید.",
+      text: "عملیات موفقیت آمیز",
+      icon: "success",
+      button: "باشه",
+  });
+    setTimeout(() => {
+      window.location.href = "../../index.html"
+    }, 1500);
   })
 }
 function localStorageHandler (access,refresh) {

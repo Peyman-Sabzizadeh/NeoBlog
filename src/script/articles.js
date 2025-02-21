@@ -123,10 +123,15 @@ function addToDom (data) {
             })
             .then((res) => res.json())
             .then((info) => {
-                alert("مقاله حذف شد")
+                swal({
+                    title: "مقاله حذف شد.",
+                    text: "عملیات موفقیت آمیز",
+                    icon: "success",
+                    button: "باشه",
+                });
                 setTimeout(() => {
                     window.location.reload()
-                }, 500);
+                }, 1500);
             })
         }
     });

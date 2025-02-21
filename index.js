@@ -134,7 +134,15 @@ function logOut () {
         }else {
             localStorage.removeItem("token")
             localStorage.removeItem("refresh-token")
-            location.reload()
+            swal({
+                title: "از حساب خود خارج شدید.",
+                text: "عملیات موفقیت آمیز",
+                icon: "success",
+                button: "باشه",
+            });
+            setTimeout(() => {
+                location.reload()
+            }, 1500);
         }
     })
 }
