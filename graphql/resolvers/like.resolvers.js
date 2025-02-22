@@ -13,8 +13,10 @@ export const addLike = async (_, { articleId }, context) => {
     };
   }
   const checkArticleLiked = await Like.findOne({
-    article_id: articleId,
-    user_id: user.id,
+    where: {
+      article_id: articleId,
+      user_id: user.id
+           }
   });
 
   if (checkArticleLiked) {
