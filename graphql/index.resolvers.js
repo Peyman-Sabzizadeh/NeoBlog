@@ -35,6 +35,7 @@ export const RootResolvers = {
     setArticleCover: articleResolvers.setArticleCover,
     removeAvatar: userResolvers.removeAvatar,
     changeRole: userResolvers.changeRole,
+    editProfile: userResolvers.editProfile,
     createArticle: articleResolvers.createArticle,
     updateArticle: articleResolvers.updateArticle,
     removeArticle: articleResolvers.removeArticle,
