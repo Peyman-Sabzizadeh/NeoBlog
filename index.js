@@ -10,6 +10,7 @@ const lightIcon = $.querySelector("#light-icon")
 const darkIcon = $.querySelector("#dark-icon")
 const loginBtn = $.querySelector(".login-btn")
 const signupBtn = $.querySelector(".signup-btn")
+const articlesContainer = $.querySelector("#articles-container")
 let classTheme = document.documentElement
 let getTheme = localStorage.getItem("theme")
 menuButton.addEventListener("click", function () {
@@ -138,5 +139,62 @@ function logOut () {
         }
     })
 }
+function loadArticles () {
+    const getAllArticlesQuery = `
+    query {
+        findAllArticle(
+            page: 1, 
+            limit: 8
+        ){
+        title,
+        content,
+        id
+        }
+    }`
+    fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            query: getAllArticlesQuery,
+        }),
+    })
+    .then((res) => res.json())
+    .then((data) => addArticlesToDom(data.data.findAllArticle))
+}
+function addArticlesToDom (articles) {
+    articles.forEach(function (ar) {
+        articlesContainer.insertAdjacentHTML("beforeend", `
+        <article class="flex flex-col p-8 bg-black/50 rounded-lg">
+            <div>
+                <h3 class="text-xl font-VazirMedium line-clamp-1">${ar.title}</h3>
+            </div>
+            <div class="flex items-center justify-center gap-x-4">
+                <div>
+                    <p class="max-w-96 line-clamp-3 text-balance">${ar.content}</p>
+                </div>
+                <div class="flex flex-col items-center justify-center gap-y-4">
+                    <div class="bg-black/50 rounded-lg p-2">
+                        <img src="./src/img/Logo.svg" alt="عکس" class="w-20 h-20">
+                    </div>
+                    <div class="flex gap-x-4">
+                        <svg onclick="addLike()" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-7 cursor-pointer hover:fill-rose-500 hover:stroke-none">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                        </svg>
+                        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#171717" class="size-7 cursor-pointer hover:fill-neutral-900">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+                         </svg>
+                    </div>
+                </div>
+            </div>
+        </article>
+        `)
+    })
+}
+function addLike () {
+    console.log("this is liked")
+}
 logOutBtn.addEventListener("click", logOut)
 window.addEventListener("load",autoLogin)
+window.addEventListener("load", loadArticles)
