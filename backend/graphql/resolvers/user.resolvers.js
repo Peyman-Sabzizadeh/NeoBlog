@@ -110,7 +110,7 @@ export const login = async (_, args) => {
 export const verifyOtp = async (_, args) => {
   const { phone, code } = args;
   const user = await isUserRegistered(phone);
-  
+
   if (!user) {
     throw new Error("ابتدا ثبت نام کنید !");
   }
@@ -340,5 +340,27 @@ export const changeRole = async (_, args, context) => {
     error: false,
     success: true,
     message: "نقش کاربر تغییر یافت",
+  };
+};
+
+export const editProfile = async (
+  _,
+  { name, username, email, password },
+  ctx
+) => {
+  const user = await authGuard(ctx.req);
+
+  const updateData = {};
+  if (name) updateData.name = name;
+  if (username) updateData.username = username;
+  if (email) updateData.email = email;
+  if (password) updateData.password = await hashUserPassword(password);
+
+  await User.update(updateData, { where: { id: user.id } });
+
+  return {
+    success: true,
+    error: false,
+    message: "پروفایل با موفقیت ویرایش شد.",
   };
 };

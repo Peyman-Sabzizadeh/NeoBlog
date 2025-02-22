@@ -38,6 +38,7 @@ export const schema = `
       findArticleBuySlug (slug: String!): [Article]
       findArticleBuyTag (tag: String!): [Article]
       findArticleByID (articleID: Int!): Article         
+      findAuthorArticles (page: Int, limit: Int): [Article]         
       getAllTag: [Tag!]!
       getAllBookMarks (page: Int, limit: Int): [BookMark!]!
       getAllLikes (articleId: Int!): [Like]
@@ -55,6 +56,7 @@ export const schema = `
       setArticleCover (articleID: Int!, cover: Upload!): File!
       removeAvatar: Response!
       changeRole (role: UserRole!, userID: Int!): Response!
+      editProfile (name: String, email: String, password: String, username: String): Response!
       createArticle (input: createArticleInput!): Article!
       delArticleCover (id: Int!) : Response!
       removeArticle (id: Int!) : Response!
