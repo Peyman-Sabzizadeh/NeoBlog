@@ -77,7 +77,7 @@ export const removeBookMark = async (_, { articleId }, context) => {
     message: "مقاله با موفقیت unsave شد !!",
   };
 };
-export const getAllBookMarks = async (_, { page = 1, limit = 10 }, context) => {
+export const getAllBookMarks = async (_, { page = 1, limit = 5 }, context) => {
   const user = await authGuard(context.req);
 
   const bookMarks = await BookMark.findAll({

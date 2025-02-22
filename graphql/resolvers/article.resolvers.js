@@ -175,7 +175,7 @@ export const delArticleCover = async (_, args, context) => {
   }
 };
 
-export const findAllArticle = async (_, { limit, page }) => {
+export const findAllArticle = async (_, { limit = 5, page = 1 }) => {
   const articles = await Article.findAll({
     include: [
       {
@@ -311,4 +311,40 @@ export const findArticleByID = async (_, { articleID }, ctx) => {
   );
 
   return article;
+};
+
+export const findAuthorArticles = async (_, { limit = 5, page = 1 }, ctx) => {
+  const user = await authGuard(ctx.req);
+  const articles = await Article.findAll({
+    where: {
+      author_id: user.id,
+    },
+    include: [
+      {
+        model: Tag,
+        attributes: ["title"],
+        through: {
+          attributes: [],
+        },
+      },
+      {
+        model: User,
+        attributes: {
+          exclude: ["password"],
+        },
+        as: "author",
+      },
+    ],
+    limit,
+    offset: (page - 1) * limit,
+
+    order: [["created_at", "DESC"]],
+  });
+
+  articles.forEach((article) => {
+    article.dataValues.created_at = calculateDurationCreateAtOfArticles(
+      article.dataValues.created_at
+    );
+  });
+  return articles;
 };

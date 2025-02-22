@@ -38,6 +38,7 @@ export const schema = `
       findArticleBuySlug (slug: String!): [Article]
       findArticleBuyTag (tag: String!): [Article]
       findArticleByID (articleID: Int!): Article         
+      findAuthorArticles (page: Int, limit: Int): [Article]         
       getAllTag: [Tag!]!
       getAllBookMarks (page: Int, limit: Int): [BookMark!]!
       getAllLikes (articleId: Int!): [Like]
