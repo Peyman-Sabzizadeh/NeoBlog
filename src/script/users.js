@@ -78,15 +78,10 @@ function addUsersToDom (users) {
             })
             .then((res) => res.json())
             .then((info) => {
-                swal({
-                    title: "کاربر حذف شد.",
-                    text: "عملیات موفقیت آمیز",
-                    icon: "success",
-                    button: "باشه",
-                });
+                alert("کاربر حذف شد")
                 setTimeout(() => {
                     window.location.reload()
-                }, 1500);
+                }, 500);
             })
         }
     });
