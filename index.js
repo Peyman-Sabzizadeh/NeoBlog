@@ -164,7 +164,7 @@ function loadArticles () {
     .then((data) => addArticlesToDom(data.data.findAllArticle))
 }
 function addArticlesToDom (articles) {
-    articles.forEach(function (ar) {
+    articles.reverse().forEach(function (ar) {
         articlesContainer.insertAdjacentHTML("beforeend", `
         <article class="flex flex-col p-8 bg-black/50 rounded-lg">
             <div>
@@ -175,11 +175,8 @@ function addArticlesToDom (articles) {
                     <p class="max-w-96 line-clamp-3 text-balance">${ar.content}</p>
                 </div>
                 <div class="flex flex-col items-center justify-center gap-y-4">
-                    <div class="bg-black/50 rounded-lg p-2">
-                        <img src="./src/img/Logo.svg" alt="عکس" class="w-20 h-20">
-                    </div>
                     <div class="flex gap-x-4">
-                        <svg onclick="addLike()" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-7 cursor-pointer hover:fill-rose-500 hover:stroke-none">
+                        <svg onclick="addLike(${ar.id})" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-7 cursor-pointer hover:fill-rose-500 hover:stroke-none">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
                         </svg>
                         <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#171717" class="size-7 cursor-pointer hover:fill-neutral-900">
@@ -192,8 +189,35 @@ function addArticlesToDom (articles) {
         `)
     })
 }
-function addLike () {
-    console.log("this is liked")
+function addLike (articleID) {
+    console.log(articleID)
+    let getUserToken = localStorage.getItem("token")
+    const addLikeMutation = `
+    mutation {
+        addLike(
+            articleId: ${articleID}
+        ){
+        message,
+        success
+        }
+    }`
+    fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `${getUserToken}`
+        },
+        body: JSON.stringify({
+            query: addLikeMutation,
+        }),
+    })
+    .then((res) => res.json())
+    .then((data) => {
+        if (data.data.addLike.success === true) {
+            alert("مقاله مورد نظر لایک شد")
+        }
+        console.log(data.data.addLike)
+    })
 }
 logOutBtn.addEventListener("click", logOut)
 window.addEventListener("load",autoLogin)

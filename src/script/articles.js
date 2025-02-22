@@ -1,4 +1,4 @@
-const articlesContainer = $.querySelector("#articles-container")
+const myArticlesContainer = $.querySelector("#my-articles-container")
 function getArticles () {
     let getToken = localStorage.getItem("token")
     const articlesQuery = `
@@ -56,7 +56,7 @@ function addToDom (data) {
         .then((count) => {
             const likesCount = count?.data?.getAllLikes?.length || 0;
             const savesCount = count?.data?.getArticleBookMarkCount?.count || 0
-            articlesContainer.insertAdjacentHTML("beforeend", `
+            myArticlesContainer.insertAdjacentHTML("beforeend", `
                 <div class="flex items-center justify-between gap-x-[8rem] bg-gray-400 rounded-lg p-2">
                     <div>
                         <h2>${article.title}</h2>
@@ -90,7 +90,7 @@ function addToDom (data) {
             `)
         })
     })
-    articlesContainer.addEventListener("click", function (event) {
+    myArticlesContainer.addEventListener("click", function (event) {
         const link = event.target.closest("#edit-btn");
         if (link) {
             const articleId = link.getAttribute("data-id");
@@ -98,7 +98,7 @@ function addToDom (data) {
             window.location.href = "./create-article.html"
         }
     });
-    articlesContainer.addEventListener("click", function (event) {
+    myArticlesContainer.addEventListener("click", function (event) {
         const link = event.target.closest(".delete-btn");
         if (link) {
             const articleId = link.getAttribute("data-article-id");
