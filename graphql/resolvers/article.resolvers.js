@@ -277,10 +277,7 @@ export const findArticleBuyTag = async (_, { tag }) => {
 };
 
 export const findArticleByID = async (_, { articleID }, ctx) => {
-  const { role } = await authGuard(ctx.req);
-
-  if (role !== "ADMIN")
-    throw new Error("شما دسترسی استفاده ندارید تنها ادمبن ها دسترسی دارند!");
+   await authGuard(ctx.req);
 
   const article = await Article.findByPk(articleID, {
     include: [
