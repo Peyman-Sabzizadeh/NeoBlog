@@ -192,36 +192,69 @@ function addArticlesToDom (articles) {
 }
 function addLike (articleID) {
     console.log(articleID)
-    let getUserToken = localStorage.getItem("token")
-    const addLikeMutation = `
-    mutation {
-        addLike(
-            articleId: ${articleID}
-        ){
-        message,
-        success
-        }
-    }`
-    fetch(url, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `${getUserToken}`
-        },
-        body: JSON.stringify({
-            query: addLikeMutation,
-        }),
-    })
-    .then((res) => res.json())
-    .then((data) => {
-        if (data.data.addLike.success === true) {
-            alert("مقاله مورد نظر لایک شد")
-            let articleIDLike = $.querySelector(`#s${articleID}`)
-            articleIDLike.classList.add("fill-rose-500")
-            articleIDLike.classList.add("stroke-none")
-        }
-        console.log(data.data.addLike)
-    })
+    let getLikeElem = $.querySelector(`#s${articleID}`)
+    if (getLikeElem.classList.contains("fill-rose-500")) {
+        let getAccessToken = localStorage.getItem("token")
+        const disLikeMutation = `
+        mutation {
+            disLike(
+                articleId: ${articleID}
+            ){
+                success
+            }
+        }`
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `${getAccessToken}`
+            },
+            body: JSON.stringify({
+                query: disLikeMutation,
+            }),
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            if (data.data.disLike.success === true) {
+                let articleLikeElem = $.querySelector(`#s${articleID}`)
+                articleLikeElem.classList.remove("fill-rose-500")
+                articleLikeElem.classList.remove("stroke-none")
+                alert("مقاله مورد نظر دیسلایک شد")
+            }
+            console.log(data.data.addLike)
+        })
+    }else {
+        let getUserToken = localStorage.getItem("token")
+        const addLikeMutation = `
+        mutation {
+            addLike(
+                articleId: ${articleID}
+            ){
+            message,
+            success
+            }
+        }`
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `${getUserToken}`
+            },
+            body: JSON.stringify({
+                query: addLikeMutation,
+            }),
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            if (data.data.addLike.success === true) {
+                alert("مقاله مورد نظر لایک شد")
+                let articleIDLike = $.querySelector(`#s${articleID}`)
+                articleIDLike.classList.add("fill-rose-500")
+                articleIDLike.classList.add("stroke-none")
+            }
+            console.log(data.data.addLike)
+        })
+    }
 }
 function checkArticleLike (arID) {
     let getAccessToken = localStorage.getItem("token")
@@ -247,7 +280,11 @@ function checkArticleLike (arID) {
     })
     .then((res) => res.json())
     .then((data) => {
-        console.log(data.data.getAllLikes)
+        if (data.data.getAllLikes) {
+            let getLikeElem = $.querySelector(`#s${arID}`)
+            getLikeElem.classList.add("fill-rose-500")
+            getLikeElem.classList.add("stroke-none")
+        }
     })
 }
 logOutBtn.addEventListener("click", logOut)
