@@ -96,7 +96,7 @@ function updateArticle () {
             .then((res) => res.json())
             .then((info) => {
                 localStorage.removeItem("article-id")
-                window.location.href = "./articles.html"
+                window.location.href = "./my-articles.html"
             })
         })
     }
