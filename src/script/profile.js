@@ -25,10 +25,17 @@ function getInfo () {
     })
     .then((res) => res.json())
     .then((data) => {
+        function convertToPersian (roleName) {
+            if (roleName === "USER") {
+                return "کاربر"
+            }else {
+                return "مدیر"
+            }
+        }
         nameInfo.innerHTML += data.data.getMe.name
         usernameInfo.innerHTML += data.data.getMe.username
         phoneInfo.innerHTML += data.data.getMe.phone
-        roleInfo.innerHTML += data.data.getMe.role
+        roleInfo.innerHTML += convertToPersian(data.data.getMe.role)
     })
 }
 window.addEventListener("load", getInfo)
