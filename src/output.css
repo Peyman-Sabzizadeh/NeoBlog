@@ -1044,12 +1044,16 @@ video {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
 }
 
+.fill-gray-500 {
+  fill: #6b7280;
+}
+
 .fill-rose-500 {
   fill: #f43f5e;
 }
 
-.fill-gray-500 {
-  fill: #6b7280;
+.fill-gray-900 {
+  fill: #111827;
 }
 
 .stroke-none {

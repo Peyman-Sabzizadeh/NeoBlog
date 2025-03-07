@@ -166,6 +166,7 @@ function loadArticles () {
 function addArticlesToDom (articles) {
     articles.reverse().forEach(function (ar) {
         checkArticleLike(ar.id)
+        checkSaveLike(ar.id)
         articlesContainer.insertAdjacentHTML("beforeend", `
         <article class="flex flex-col p-8 bg-black/50 rounded-lg">
             <div>
@@ -221,7 +222,6 @@ function addLike (articleID) {
                 articleLikeElem.classList.remove("stroke-none")
                 alert("مقاله مورد نظر دیسلایک شد")
             }
-            console.log(data.data.addLike)
         })
     }else {
         let getUserToken = localStorage.getItem("token")
@@ -252,7 +252,6 @@ function addLike (articleID) {
                 articleIDLike.classList.add("fill-rose-500")
                 articleIDLike.classList.add("stroke-none")
             }
-            console.log(data.data.addLike)
         })
     }
 }
@@ -291,7 +290,7 @@ function checkArticleLike (arID) {
 function addSave (articleID) {
     console.log(articleID)
     let getSaveElem = $.querySelector(`#r${articleID}`)
-    if (getSaveElem.classList.contains("fill-gray-500")) {
+    if (getSaveElem.classList.contains("fill-gray-900")) {
         let getAccessToken = localStorage.getItem("token")
         const disSaveMutation = `
         mutation {
@@ -315,10 +314,9 @@ function addSave (articleID) {
         .then((data) => {
             if (data.data.removeBookMark.success === true) {
                 let articleLikeElem = $.querySelector(`#r${articleID}`)
-                articleLikeElem.classList.remove("fill-gray-500")
+                articleLikeElem.classList.remove("fill-gray-900")
                 alert("مقاله مورد نظر دیس سیو شد")
             }
-            console.log(data.data.removeBookMark)
         })
     }else {
         let getUserToken = localStorage.getItem("token")
@@ -345,13 +343,12 @@ function addSave (articleID) {
             if (data.data.addBookMark.success === true) {
                 alert("مقاله مورد نظر سیو شد")
                 let articleIDSave = $.querySelector(`#r${articleID}`)
-                articleIDSave.classList.add("fill-gray-500")
+                articleIDSave.classList.add("fill-gray-900")
             }
-            console.log(data.data.addBookMark)
         })
     }
 }
-function checkArticleLike (arID) {
+function checkSaveLike (arID) {
     let getAccessToken = localStorage.getItem("token")
     const getSaveQuery = `
     query {
@@ -373,11 +370,12 @@ function checkArticleLike (arID) {
     })
     .then((res) => res.json())
     .then((data) => {
-        if (data.data.getAllBookMarks.article === arID) {
-            let getSaveElem = $.querySelector(`#r${arID}`)
-            getSaveElem.classList.add("fill-gray-500")
-        }
-        console.log(data)
+        let getSaveElem = $.querySelector(`#r${arID}`)
+        data.data.getAllBookMarks.forEach(function (e) {
+            if (e.article.id === arID) {
+                getSaveElem.classList.add("fill-gray-900")
+            }
+        })
     })
 }
 // ----------------------------------------------------------
