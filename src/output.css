@@ -1048,6 +1048,10 @@ video {
   fill: #f43f5e;
 }
 
+.fill-gray-500 {
+  fill: #6b7280;
+}
+
 .stroke-none {
   stroke: none;
 }
