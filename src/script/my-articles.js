@@ -46,4 +46,53 @@ function getMyArticles () {
         })
     })
 }
+myArticles.addEventListener("click", function (event) {
+    checkDeleteBtn(event)
+    checkEditBtn(event)
+});
+function checkEditBtn (e) {
+    let editButton = e.target.closest("#edit-btn");
+    if (editButton) {
+        let articleId = editButton.getAttribute("data-id");
+        editArticle(articleId);
+    }
+}
+function checkDeleteBtn (d) {
+    let deleteButton = d.target.closest(".delete-btn");
+    if (deleteButton) {
+        let articleId = deleteButton.getAttribute("data-article-id");
+        deleteBtn(articleId);
+    }
+}
+function editArticle(articleId) {
+    localStorage.setItem("article-id", articleId)
+    window.location.href = "edit-article.html"
+}
+function deleteBtn (arID) {
+    let getAccessToken = localStorage.getItem("token")
+    const deleteMyArticleMutation = `
+    mutation {
+        removeArticle(
+        id: ${arID}
+        ){
+            success  
+        }
+    }`
+    fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `${getAccessToken}`
+        },
+        body: JSON.stringify({
+            query: deleteMyArticleMutation,
+        }),
+    })
+    .then((res) => res.json())
+    .then((data) => {
+        if (data.data.removeArticle.success) {
+            window.location.reload()
+        }
+    })
+}
 window.addEventListener("load", getMyArticles)

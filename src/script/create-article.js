@@ -36,72 +36,13 @@ function createArticle () {
         }),
     })
     .then((res) => res.json())
-    .then((data) => console.log(data))
+    .then((data) => {
+        if (data.data.createArticle) {
+            window.location.href = "my-articles.html"
+        }
+    })
 }
 submitBtn.addEventListener("click", createArticle)
-function updateArticle () {
-    let getArticleID = localStorage.getItem("article-id")
-    if (getArticleID) {
-        // Get article info
-        tagsInput.classList.add("hidden")
-        let getAccessToken = localStorage.getItem("token")
-        const getArticleInfoQuery = `
-        query {
-            findArticleByID(
-                articleID: ${getArticleID}
-            ){
-                title,
-                content
-            }
-        }`
-        fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `${getAccessToken}`
-            },
-            body: JSON.stringify({
-                query: getArticleInfoQuery,
-            }),
-        })
-        .then((res) => res.json())
-        .then((info) => {
-            let articleInfo = info.data.findArticleByID
-            titleInput.value = articleInfo.title
-            contentInput.value = articleInfo.content
-        })
-        // Update article
-        submitBtn.addEventListener("click", function () {
-            let getUserToken = localStorage.getItem("token")
-            const updateArticleMutation = `
-            mutation {
-                updateArticle(
-                    articleID: ${getArticleID},
-                    title: "${titleInput.value}",
-                    content: "${contentInput.value}"
-                ){
-                    message  
-                }
-            }`
-            fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `${getUserToken}`
-                },
-                body: JSON.stringify({
-                    query: updateArticleMutation,
-                }),
-            })
-            .then((res) => res.json())
-            .then((info) => {
-                localStorage.removeItem("article-id")
-                window.location.href = "./my-articles.html"
-            })
-        })
-    }
-}
-updateArticle()
 document.addEventListener("visibilitychange", function () {
     if (document.hidden) {
         localStorage.removeItem("article-id")
