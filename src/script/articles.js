@@ -57,7 +57,7 @@ function addToDom (data) {
             const likesCount = count?.data?.getAllLikes?.length || 0;
             const savesCount = count?.data?.getArticleBookMarkCount?.count || 0
             myArticlesContainer.insertAdjacentHTML("beforeend", `
-                <div class="flex items-center justify-between gap-x-[8rem] bg-gray-400 rounded-lg p-2">
+                <div class="flex items-center justify-between gap-x-[8rem] bg-gray-400 dark:bg-gray-600 rounded-lg p-2">
                     <div>
                         <h2>${article.title}</h2>
                     </div>

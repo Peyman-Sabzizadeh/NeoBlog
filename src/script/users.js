@@ -39,7 +39,7 @@ function addUsersToDom (users) {
     }
     users.reverse().forEach(function (user) {
         tableBody.insertAdjacentHTML("beforeend", `
-        <tr class="hover:bg-gray-100 transition child:py-3 child:px-4 child:text-right">
+        <tr class="hover:bg-gray-100 dark:bg-gray-600 dark:hover:bg-gray-500 transition child:py-3 child:px-4 child:text-right">
             <td>${user.id}</td>
             <td>${user.name}</td>
             <td>${user.phone}</td>

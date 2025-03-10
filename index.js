@@ -181,7 +181,7 @@ function addArticlesToDom (articles) {
                         <svg id="s${ar.id}" onclick="addLike(${ar.id})" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-7 cursor-pointer hover:fill-rose-500 hover:stroke-none">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
                         </svg>
-                        <svg id="r${ar.id}" onclick="addSave(${ar.id})" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#171717" class="size-7 cursor-pointer hover:fill-neutral-900">
+                        <svg id="r${ar.id}" onclick="addSave(${ar.id})" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#171717" class="size-7 cursor-pointer hover:fill-neutral-900 dark:stroke-white dark:hover:fill-slate-50">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
                          </svg>
                     </div>
@@ -290,7 +290,7 @@ function checkArticleLike (arID) {
 function addSave (articleID) {
     console.log(articleID)
     let getSaveElem = $.querySelector(`#r${articleID}`)
-    if (getSaveElem.classList.contains("fill-gray-900")) {
+    if (getSaveElem.classList.contains("fill-gray-900") || getSaveElem.classList.contains("fill-slate-50")) {
         let getAccessToken = localStorage.getItem("token")
         const disSaveMutation = `
         mutation {
@@ -314,7 +314,11 @@ function addSave (articleID) {
         .then((data) => {
             if (data.data.removeBookMark.success === true) {
                 let articleLikeElem = $.querySelector(`#r${articleID}`)
-                articleLikeElem.classList.remove("fill-gray-900")
+                if (document.documentElement.classList.contains("dark")) {
+                    articleLikeElem.classList.remove("fill-slate-50")
+                }else {
+                    articleLikeElem.classList.remove("fill-gray-900")
+                }
                 alert("مقاله مورد نظر دیس سیو شد")
             }
         })
@@ -343,7 +347,11 @@ function addSave (articleID) {
             if (data.data.addBookMark.success === true) {
                 alert("مقاله مورد نظر سیو شد")
                 let articleIDSave = $.querySelector(`#r${articleID}`)
-                articleIDSave.classList.add("fill-gray-900")
+                if (document.documentElement.classList.contains("dark")) {
+                    articleIDSave.classList.add("fill-slate-50")
+                }else {
+                    articleIDSave.classList.add("fill-gray-900")
+                }
             }
         })
     }
@@ -373,7 +381,11 @@ function checkSaveLike (arID) {
         let getSaveElem = $.querySelector(`#r${arID}`)
         data.data.getAllBookMarks.forEach(function (e) {
             if (e.article.id === arID) {
-                getSaveElem.classList.add("fill-gray-900")
+                if (document.documentElement.classList.contains("dark")) {
+                    getSaveElem.classList.add("fill-slate-50")
+                }else {
+                    getSaveElem.classList.add("fill-gray-900")
+                }
             }
         })
     })
